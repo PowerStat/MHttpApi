@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Copyright (C) 2020-2024 Dipl.-Inform. Kai Hofmann. All rights reserved!
  */
 
 

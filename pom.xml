@@ -5,7 +5,7 @@
   <parent>
     <groupId>de.powerstat.toolbaseline</groupId>
     <artifactId>tbl-java-parent</artifactId>
-    <version>17.1.0-SNAPSHOT</version>
+    <version>17.2.0</version>
   </parent>
 
   <groupId>de.powerstat.m</groupId>
@@ -44,7 +44,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.4.2</version>
         <configuration>
           <archive>
             <manifestEntries>
@@ -62,9 +62,10 @@
       <plugin> <!-- Not working: https://issues.apache.org/jira/browse/MJDEPS-25 -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jdeps-plugin</artifactId>
+        <version>3.1.2</version>
         <configuration>
           <module>de.powerstat.m.httpapi</module>
-          <multiRelease>11</multiRelease>
+          <multiRelease>17</multiRelease>
         </configuration>
       </plugin>
 
@@ -73,7 +74,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.4.1</version>
+        <version>3.5.0</version>
         <executions>
           <execution>
             <id>enforce</id>
@@ -131,7 +132,7 @@
       <artifactId>commons-codec</artifactId>
       <version>1.17.1</version>
     </dependency>
-
+<!--
     <dependency>
       <groupId>xerces</groupId>
       <artifactId>xercesImpl</artifactId>
@@ -143,7 +144,7 @@
         </exclusion>
       </exclusions>
     </dependency>
-
+-->
   </dependencies>
 
 </project>
