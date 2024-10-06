@@ -1,2 +1,4 @@
 target/
 cov-int/
+coverity.bat
+cov-int.zip
