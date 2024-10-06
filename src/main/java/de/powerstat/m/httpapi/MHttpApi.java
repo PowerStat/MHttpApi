@@ -198,9 +198,23 @@ public final class MHttpApi implements Comparable<MHttpApi>
     // factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true); //$NON-NLS-1$
     // factory.setXIncludeAware(false);
     // factory.setExpandEntityReferences(false);
-    final var docBuilder = factory.newDocumentBuilder();
-
-    return newInstance(httpclient, docBuilder, hostname, port);
+    try
+     {
+      final var docBuilder = factory.newDocumentBuilder();
+      return newInstance(httpclient, docBuilder, hostname, port);
+     }
+    catch (final ParserConfigurationException e)
+     {
+      try
+       {
+        httpclient.close();
+       }
+      catch (IOException e1)
+       {
+        // ignore
+       }
+      throw e;
+     }
    }
 
 
@@ -431,11 +445,10 @@ public final class MHttpApi implements Comparable<MHttpApi>
      {
       return true;
      }
-    if (!(obj instanceof MHttpApi))
+    if (!(obj instanceof final MHttpApi other))
      {
       return false;
      }
-    final MHttpApi other = (MHttpApi)obj;
     return (this.hostname.equals(other.hostname));
    }
 
