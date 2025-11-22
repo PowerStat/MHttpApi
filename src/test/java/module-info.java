@@ -25,6 +25,7 @@ open module de.powerstat.m.httpapi
   requires org.junit.platform.launcher;
   requires org.junit.platform.suite.api;
   requires org.junit.jupiter.params;
+  requires org.mockito;
   // requires io.cucumber.java;
   // requires io.cucumber.junit.platform.engine;
   // requires nl.jqno.equalsverifier;

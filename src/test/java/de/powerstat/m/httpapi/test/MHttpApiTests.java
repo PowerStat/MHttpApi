@@ -104,19 +104,14 @@ final class MHttpApiTests
   private static final String NO_IMAGE = "No image"; //$NON-NLS-1$
 
   /**
-   * Height text.
-   */
-  private static final String HEIGHT = "; height: "; //$NON-NLS-1$
-
-  /**
-   * Width text.
-   */
-  private static final String WIDTH = "width: "; //$NON-NLS-1$
-
-  /**
    * Jpg text.
    */
   private static final String JPG = "jpg"; //$NON-NLS-1$
+
+  /**
+   * Width high.
+   */
+  private static final String WIDTH_HEIGHT = "width: {}; height: {}";
 
   /**
    * Get url parameters not as expected text.
@@ -136,6 +131,23 @@ final class MHttpApiTests
    {
     super();
    }
+
+
+  /* *
+   * Get document builder.
+   *
+   * @return DocumentBuilder
+   * @throws ParserConfigurationException Parser configuration exception
+   */
+  /*
+  private DocumentBuilder getDocBuilder() throws ParserConfigurationException
+   {
+    final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); //$NON-NLS-1$
+    return factory.newDocumentBuilder();
+   }
+  */
 
 
   /**
@@ -198,7 +210,7 @@ final class MHttpApiTests
     final MHttpApi mapi = MHttpApi.newInstance(MHttpApiTests.MHOSTNAME, 443, MHttpApiTests.MUSERNAME, MHttpApiTests.MPASSWORD);
     final BufferedImage image = mapi.getCurrentImage();
     assertNotNull(image, MHttpApiTests.NO_IMAGE);
-    MHttpApiTests.LOGGER.debug(MHttpApiTests.WIDTH + image.getWidth() + MHttpApiTests.HEIGHT + image.getHeight());
+    MHttpApiTests.LOGGER.debug(WIDTH_HEIGHT, image.getWidth(), image.getHeight());
     ImageIO.write(image, MHttpApiTests.JPG, new File("target/(testCurrentImage.jpg")); //$NON-NLS-1$
    }
 
@@ -220,7 +232,7 @@ final class MHttpApiTests
     final MHttpApi mapi = MHttpApi.newInstance(MHttpApiTests.MHOSTNAME, 443, MHttpApiTests.MUSERNAME, MHttpApiTests.MPASSWORD);
     final BufferedImage image = mapi.getImageCurrent();
     assertNotNull(image, MHttpApiTests.NO_IMAGE);
-    MHttpApiTests.LOGGER.debug(MHttpApiTests.WIDTH + image.getWidth() + MHttpApiTests.HEIGHT + image.getHeight());
+    MHttpApiTests.LOGGER.debug(WIDTH_HEIGHT, image.getWidth(), image.getHeight());
     ImageIO.write(image, MHttpApiTests.JPG, new File("target/testImageCurrent.jpg")); //$NON-NLS-1$
    }
 
@@ -245,7 +257,7 @@ final class MHttpApiTests
     final MHttpApi mapi = MHttpApi.newInstance(MHttpApiTests.MHOSTNAME, 443, MHttpApiTests.MUSERNAME, MHttpApiTests.MPASSWORD);
     final BufferedImage image = mapi.getImagePreview(width, height);
     assertNotNull(image, MHttpApiTests.NO_IMAGE);
-    MHttpApiTests.LOGGER.debug(MHttpApiTests.WIDTH + image.getWidth() + MHttpApiTests.HEIGHT + image.getHeight());
+    MHttpApiTests.LOGGER.debug(WIDTH_HEIGHT, image.getWidth(), image.getHeight());
     ImageIO.write(image, MHttpApiTests.JPG, new File("target/testImagePreview" + width + "x" + height + ".jpg")); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
@@ -313,7 +325,7 @@ final class MHttpApiTests
     final ImageParams params = new ImageParams();
     final BufferedImage image = mapi.getImageConfig(params);
     assertNotNull(image, MHttpApiTests.NO_IMAGE);
-    MHttpApiTests.LOGGER.debug(MHttpApiTests.WIDTH + image.getWidth() + MHttpApiTests.HEIGHT + image.getHeight());
+    MHttpApiTests.LOGGER.debug(WIDTH_HEIGHT, image.getWidth(), image.getHeight());
     ImageIO.write(image, MHttpApiTests.JPG, new File("target/testImageConfig.jpg")); //$NON-NLS-1$
    }
 
@@ -336,7 +348,7 @@ final class MHttpApiTests
     final ImageParams params = new ImageParams();
     final BufferedImage image = mapi.getImageProfile("", params);
     assertNotNull(image, MHttpApiTests.NO_IMAGE);
-    MHttpApiTests.LOGGER.debug(MHttpApiTests.WIDTH + image.getWidth() + MHttpApiTests.HEIGHT + image.getHeight());
+    MHttpApiTests.LOGGER.debug(WIDTH_HEIGHT, image.getWidth(), image.getHeight());
     ImageIO.write(image, MHttpApiTests.JPG, new File("target/testImageProfile.jpg")); //$NON-NLS-1$
    }
 
@@ -361,7 +373,7 @@ final class MHttpApiTests
     final ImageParams params = new ImageParams();
     final BufferedImage image = mapi.getImageView(view, params);
     assertNotNull(image, MHttpApiTests.NO_IMAGE);
-    MHttpApiTests.LOGGER.debug(MHttpApiTests.WIDTH + image.getWidth() + MHttpApiTests.HEIGHT + image.getHeight());
+    MHttpApiTests.LOGGER.debug(WIDTH_HEIGHT, image.getWidth(), image.getHeight());
     ImageIO.write(image, MHttpApiTests.JPG, new File("target/testImageProfile.jpg")); //$NON-NLS-1$
    }
 
@@ -406,7 +418,7 @@ final class MHttpApiTests
     final FaststreamParams params = new FaststreamParams();
     final BufferedImage image = mapi.getFaststream(false, params);
     assertNotNull(image, MHttpApiTests.NO_IMAGE);
-    MHttpApiTests.LOGGER.debug(MHttpApiTests.WIDTH + image.getWidth() + MHttpApiTests.HEIGHT + image.getHeight());
+    MHttpApiTests.LOGGER.debug(WIDTH_HEIGHT, image.getWidth(), image.getHeight());
     ImageIO.write(image, MHttpApiTests.JPG, new File("target/FaststreamNoGuest.jpg")); //$NON-NLS-1$
    }
 
@@ -428,7 +440,7 @@ final class MHttpApiTests
     final FaststreamParams params = new FaststreamParams();
     final BufferedImage image = mapi.getFaststream(true, params);
     assertNotNull(image, MHttpApiTests.NO_IMAGE);
-    MHttpApiTests.LOGGER.debug(MHttpApiTests.WIDTH + image.getWidth() + MHttpApiTests.HEIGHT + image.getHeight());
+    MHttpApiTests.LOGGER.debug(WIDTH_HEIGHT, image.getWidth(), image.getHeight());
     ImageIO.write(image, MHttpApiTests.JPG, new File("target/FaststreamGuest.jpg")); //$NON-NLS-1$
    }
 
@@ -450,7 +462,7 @@ final class MHttpApiTests
     final EventParams params = new EventParams();
     final BufferedImage image = mapi.getEvent(params);
     assertNotNull(image, MHttpApiTests.NO_IMAGE);
-    MHttpApiTests.LOGGER.debug(MHttpApiTests.WIDTH + image.getWidth() + MHttpApiTests.HEIGHT + image.getHeight());
+    MHttpApiTests.LOGGER.debug(WIDTH_HEIGHT, image.getWidth(), image.getHeight());
     ImageIO.write(image, MHttpApiTests.JPG, new File("target/Event.jpg")); //$NON-NLS-1$
    }
 
@@ -499,11 +511,10 @@ final class MHttpApiTests
    * Test ImageParams size width failure.
    *
    * @param width Width
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 2049})
-  /* default */ void testImageParamsSizeFailure1(final int width) throws UnsupportedEncodingException
+  /* default */ void testImageParamsSizeFailure1(final int width)
    {
     final int height = (width / 4) * 3;
     final ImageParams ip = new ImageParams();
@@ -519,11 +530,10 @@ final class MHttpApiTests
    * Test ImageParams size width failure.
    *
    * @param height Height
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 1537})
-  /* default */ void testImageParamsSizeFailure2(final int height) throws UnsupportedEncodingException
+  /* default */ void testImageParamsSizeFailure2(final int height)
    {
     final ImageParams ip = new ImageParams();
     assertThrows(IllegalArgumentException.class, () ->
@@ -554,11 +564,10 @@ final class MHttpApiTests
    * Test ImageParams customsize width failure.
    *
    * @param width Width
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 2049})
-  /* default */ void testImageParamsCustomSizeFailure1(final int width) throws UnsupportedEncodingException
+  /* default */ void testImageParamsCustomSizeFailure1(final int width)
    {
     final int height = (width / 4) * 3;
     final ImageParams ip = new ImageParams();
@@ -574,11 +583,10 @@ final class MHttpApiTests
    * Test ImageParams customsize width failure.
    *
    * @param height Height
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 1537})
-  /* default */ void testImageParamsCustomSizeFailure2(final int height) throws UnsupportedEncodingException
+  /* default */ void testImageParamsCustomSizeFailure2(final int height)
    {
     final ImageParams ip = new ImageParams();
     assertThrows(IllegalArgumentException.class, () ->
@@ -624,11 +632,10 @@ final class MHttpApiTests
    * Test ImageParams brightness with failure.
    *
    * @param brightness Brightness
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-11, 11})
-  /* default */ void testImageParamsBrightnessFailure(final int brightness) throws UnsupportedEncodingException
+  /* default */ void testImageParamsBrightnessFailure(final int brightness)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -658,11 +665,10 @@ final class MHttpApiTests
    * Test ImageParams backlight with failure.
    *
    * @param backlight Backlight
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-11, 11})
-  /* default */ void testImageParamsBacklightsFailure(final int backlight) throws UnsupportedEncodingException
+  /* default */ void testImageParamsBacklightsFailure(final int backlight)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -692,11 +698,10 @@ final class MHttpApiTests
    * Test ImageParams color with failure.
    *
    * @param color Color
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-11, 11})
-  /* default */ void testImageParamsColorFailure(final int color) throws UnsupportedEncodingException
+  /* default */ void testImageParamsColorFailure(final int color)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -726,11 +731,10 @@ final class MHttpApiTests
    * Test ImageParams blue with failure.
    *
    * @param blue Blue
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-11, 11})
-  /* default */ void testImageParamsBlueFailure(final int blue) throws UnsupportedEncodingException
+  /* default */ void testImageParamsBlueFailure(final int blue)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -760,11 +764,10 @@ final class MHttpApiTests
    * Test ImageParams red with failure.
    *
    * @param red Red
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-11, 11})
-  /* default */ void testImageParamsRedFailure(final int red) throws UnsupportedEncodingException
+  /* default */ void testImageParamsRedFailure(final int red)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -794,11 +797,10 @@ final class MHttpApiTests
    * Test ImageParams sharpen with failure.
    *
    * @param sharpen Sharpen
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 11})
-  /* default */ void testImageParamsSharpenFailure(final int sharpen) throws UnsupportedEncodingException
+  /* default */ void testImageParamsSharpenFailure(final int sharpen)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -828,11 +830,10 @@ final class MHttpApiTests
    * Test ImageParams quality with failure.
    *
    * @param quality Quality
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {9, 91})
-  /* default */ void testImageParamsQualityFailure(final int quality) throws UnsupportedEncodingException
+  /* default */ void testImageParamsQualityFailure(final int quality)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -862,11 +863,10 @@ final class MHttpApiTests
    * Test ImageParams rotate with failure.
    *
    * @param rotate Rotate
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 361})
-  /* default */ void testImageParamsRotateFailure(final int rotate) throws UnsupportedEncodingException
+  /* default */ void testImageParamsRotateFailure(final int rotate)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -896,11 +896,10 @@ final class MHttpApiTests
    * Test ImageParams textbgopacity with failure.
    *
    * @param textbgopacity Text background opacity
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 101})
-  /* default */ void testImageParamsTextbgopacityFailure(final int textbgopacity) throws UnsupportedEncodingException
+  /* default */ void testImageParamsTextbgopacityFailure(final int textbgopacity)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -930,11 +929,10 @@ final class MHttpApiTests
    * Test ImageParams displayfontsizte with failure.
    *
    * @param displayfontsize Display font size
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {7, 25})
-  /* default */ void testImageParamsDisplayfontsizeFailure(final int displayfontsize) throws UnsupportedEncodingException
+  /* default */ void testImageParamsDisplayfontsizeFailure(final int displayfontsize)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -964,11 +962,10 @@ final class MHttpApiTests
    * Test ImageParams date with failure.
    *
    * @param date Date
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 8})
-  /* default */ void testImageParamsDateFailure(final int date) throws UnsupportedEncodingException
+  /* default */ void testImageParamsDateFailure(final int date)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -998,11 +995,10 @@ final class MHttpApiTests
    * Test ImageParams textcolorwith failure.
    *
    * @param textcolor Text color
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 0x1000000})
-  /* default */ void testImageParamsTextcolorFailure(final int textcolor) throws UnsupportedEncodingException
+  /* default */ void testImageParamsTextcolorFailure(final int textcolor)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -1032,11 +1028,10 @@ final class MHttpApiTests
    * Test ImageParams textbgcolorwith failure.
    *
    * @param textbgcolor Text background color
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 0x1000000})
-  /* default */ void testImageParamsTextbgcolorFailure(final int textbgcolor) throws UnsupportedEncodingException
+  /* default */ void testImageParamsTextbgcolorFailure(final int textbgcolor)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -1096,11 +1091,10 @@ final class MHttpApiTests
    * Test ImageParams showlogo with failure.
    *
    * @param showlogo Show logo
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(strings = {"ä"})
-  /* default */ void testImageParamsShowlogoFailure(final String showlogo) throws UnsupportedEncodingException
+  /* default */ void testImageParamsShowlogoFailure(final String showlogo)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -1130,11 +1124,10 @@ final class MHttpApiTests
    * Test ImageParams print with failure.
    *
    * @param print Print
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(strings = {"ä"})
-  /* default */ void testImageParamsPrintFailure(final String print) throws UnsupportedEncodingException
+  /* default */ void testImageParamsPrintFailure(final String print)
    {
     final ImageParams ip = new ImageParams().size(640, 480);
     assertThrows(IllegalArgumentException.class, () ->
@@ -1389,11 +1382,10 @@ final class MHttpApiTests
    * Test FaststreamParams size width failure.
    *
    * @param width Width
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 2049})
-  /* default */ void testFaststreamParamsSizeFailure1(final int width) throws UnsupportedEncodingException
+  /* default */ void testFaststreamParamsSizeFailure1(final int width)
    {
     final int height = (width / 4) * 3;
     final FaststreamParams fsp = new FaststreamParams();
@@ -1409,11 +1401,10 @@ final class MHttpApiTests
    * Test FaststreamParams size width failure.
    *
    * @param height Height
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 1537})
-  /* default */ void testFaststreamParamsSizeFailure2(final int height) throws UnsupportedEncodingException
+  /* default */ void testFaststreamParamsSizeFailure2(final int height)
    {
     final FaststreamParams fsp = new FaststreamParams();
     assertThrows(IllegalArgumentException.class, () ->
@@ -1458,11 +1449,10 @@ final class MHttpApiTests
    * Test FaststreamParams iframerefresh.
    *
    * @param refresh iframe refresh
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 61})
-  /* default */ void testFaststreamParamsIfraemrefreshFailure(final int refresh) throws UnsupportedEncodingException
+  /* default */ void testFaststreamParamsIfraemrefreshFailure(final int refresh)
    {
     final FaststreamParams fsp = new FaststreamParams();
     assertThrows(IllegalArgumentException.class, () ->
@@ -1492,11 +1482,10 @@ final class MHttpApiTests
    * Test FaststreamParams jpheaderupdare with failure.
    *
    * @param update jpeg header update
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 1001})
-  /* default */ void testFaststreamParamsJpheaderupdateFailure(final int update) throws UnsupportedEncodingException
+  /* default */ void testFaststreamParamsJpheaderupdateFailure(final int update)
    {
     final FaststreamParams fsp = new FaststreamParams();
     assertThrows(IllegalArgumentException.class, () ->
@@ -1526,11 +1515,10 @@ final class MHttpApiTests
    * Test FaststreamParams jpheaderrefresh with failure.
    *
    * @param refresh jpeg header refresh
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 61})
-  /* default */ void testFaststreamParamsJpheaderrefreshFailure(final int refresh) throws UnsupportedEncodingException
+  /* default */ void testFaststreamParamsJpheaderrefreshFailure(final int refresh)
    {
     final FaststreamParams fsp = new FaststreamParams();
     assertThrows(IllegalArgumentException.class, () ->
@@ -1560,11 +1548,10 @@ final class MHttpApiTests
    * Test FaststreamParams quality with failure.
    *
    * @param quality Quality
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {9, 91})
-  /* default */ void testFaststreamParamsQualityFailure(final int quality) throws UnsupportedEncodingException
+  /* default */ void testFaststreamParamsQualityFailure(final int quality)
    {
     final FaststreamParams fsp = new FaststreamParams();
     assertThrows(IllegalArgumentException.class, () ->
@@ -1594,11 +1581,10 @@ final class MHttpApiTests
    * Test FaststreamParams fps with failure.
    *
    * @param fps Fps
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 145})
-  /* default */ void testFaststreamParamsFpsFailure(final int fps) throws UnsupportedEncodingException
+  /* default */ void testFaststreamParamsFpsFailure(final int fps)
    {
     final FaststreamParams fsp = new FaststreamParams();
     assertThrows(IllegalArgumentException.class, () ->
@@ -1628,11 +1614,10 @@ final class MHttpApiTests
    * Test FaststreamParams framecount with failure.
    *
    * @param framecount Frame count
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1})
-  /* default */ void testFaststreamParamsFramecountFailure(final int framecount) throws UnsupportedEncodingException
+  /* default */ void testFaststreamParamsFramecountFailure(final int framecount)
    {
     final FaststreamParams fsp = new FaststreamParams();
     assertThrows(IllegalArgumentException.class, () ->
@@ -1822,11 +1807,10 @@ final class MHttpApiTests
    * Test EventParams size width failure.
    *
    * @param width Width
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 2049})
-  /* default */ void testEventParamsSizeFailure1(final int width) throws UnsupportedEncodingException
+  /* default */ void testEventParamsSizeFailure1(final int width)
    {
     final int height = (width / 4) * 3;
     final EventParams ep = new EventParams();
@@ -1842,11 +1826,10 @@ final class MHttpApiTests
    * Test EventParams size width failure.
    *
    * @param height Height
-   * @throws UnsupportedEncodingException Unsupported encoding exception
    */
   @ParameterizedTest
   @ValueSource(ints = {-1, 1537})
-  /* default */ void testEventParamsSizeFailure2(final int height) throws UnsupportedEncodingException
+  /* default */ void testEventParamsSizeFailure2(final int height)
    {
     final EventParams ep = new EventParams();
     assertThrows(IllegalArgumentException.class, () ->
@@ -1855,6 +1838,114 @@ final class MHttpApiTests
      }, ILLEGAL_ARGUMENT_EXCEPTION_EXPECTED
     );
    }
+
+
+
+
+  /* *
+   * Get switch list test.
+   *
+   * @throws IOException IO exception
+   * @throws NoSuchAlgorithmException No such algorithm exception
+   * @throws ParserConfigurationException Parser cofiguration exception
+   * @throws KeyStoreException  Key store exception
+   * @throws KeyManagementException  Key management exception
+   * @throws SAXException  SAX exception
+   */
+  // @Test
+  /*
+  /* default * / void testGetSwitchList1() throws IOException, NoSuchAlgorithmException, KeyManagementException, KeyStoreException, ParserConfigurationException, SAXException
+   {
+    final CloseableHttpClient mockHttpclient = mock(CloseableHttpClient.class);
+    final StatusLine mockStatusLineOk = mock(StatusLine.class);
+    when(mockStatusLineOk.getStatusCode()).thenReturn(HttpURLConnection.HTTP_OK);
+    final String testDoc1 = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><SessionInfo><SID>0000000000000000</SID><Challenge>deadbeef</Challenge><BlockTime>0</BlockTime><Rights></Rights></SessionInfo>"; //$NON-NLS-1$
+    createLogonMocks(mockHttpclient, mockStatusLineOk, testDoc1, true);
+    createLogoffMocks(mockHttpclient, mockStatusLineOk, testDoc1);
+
+    final HttpEntity mockHttpEntity5 = mock(HttpEntity.class);
+    when(mockHttpEntity5.isStreaming()).thenReturn(false);
+
+    final String testDoc3 = "000000000001,000000000002,000000000003\n"; //$NON-NLS-1$
+    when(mockHttpEntity5.getContentType()).thenReturn(null);
+    when(mockHttpEntity5.getContent()).thenReturn(new ByteArrayInputStream(testDoc3.getBytes(StandardCharsets.UTF_8)));
+    when(mockHttpEntity5.getContentLength()).thenReturn((long)testDoc3.length());
+
+    final CloseableHttpResponse mockCloseableHttpResponse5 = mock(CloseableHttpResponse.class);
+    when(mockCloseableHttpResponse5.getStatusLine()).thenReturn(mockStatusLineOk);
+    when(mockCloseableHttpResponse5.getEntity()).thenReturn(mockHttpEntity5);
+
+    when(mockHttpclient.execute(argThat(new HttpGetMatcher("/webservices/homeautoswitch.lua?switchcmd=getswitchlist&sid=0000000000004711")))).thenReturn(mockCloseableHttpResponse5); //$NON-NLS-1$
+
+    final List<AIN> results = new ArrayList<>();
+    results.add(AIN.of("000000000001")); //$NON-NLS-1$
+    results.add(AIN.of("000000000002")); //$NON-NLS-1$
+    results.add(AIN.of("000000000003")); //$NON-NLS-1$
+
+    final MHttpApi ahasession = MHttpApi.newInstance(mockHttpclient, getDocBuilder(), "fritz.box", 443, "", MPASSWORD); //$NON-NLS-1$ //$NON-NLS-2$
+    final boolean successLogon = ahasession.logon();
+    final List<AIN> switches = ahasession.getSwitchList();
+    final boolean successLogoff = ahasession.logoff();
+    assertAll(
+      () -> assertTrue(successLogon, "Logon failed"), //$NON-NLS-1$
+      () -> assertEquals(results, switches, "Switches are not as expected"), //$NON-NLS-1$
+      () -> assertTrue(successLogoff, "Logoff failed") //$NON-NLS-1$
+    );
+   }
+  */
+
+
+  /* *
+   * Test get device ist infos.
+   *
+   * @throws IOException IO exception
+   * @throws NoSuchAlgorithmException No such algorithm exception
+   * @throws ClientProtocolException Client protocol exception
+   * @throws ParserConfigurationException Parser configuration exception
+   * @throws KeyStoreException Key store exception
+   * @throws KeyManagementException Key management exception
+   * @throws SAXException SAX exception
+   */
+  // @Test
+  /*
+  /* default * / void testGetDeviceListInfos() throws ClientProtocolException, NoSuchAlgorithmException, IOException, KeyManagementException, KeyStoreException, ParserConfigurationException, SAXException
+   {
+    final CloseableHttpClient mockHttpclient = mock(CloseableHttpClient.class);
+    final StatusLine mockStatusLineOk = mock(StatusLine.class);
+    when(mockStatusLineOk.getStatusCode()).thenReturn(HttpURLConnection.HTTP_OK);
+    final String testDoc1 = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><SessionInfo><SID>0000000000000000</SID><Challenge>deadbeef</Challenge><BlockTime>0</BlockTime><Rights></Rights></SessionInfo>"; //$NON-NLS-1$
+    createLogonMocks(mockHttpclient, mockStatusLineOk, testDoc1, true);
+    createLogoffMocks(mockHttpclient, mockStatusLineOk, testDoc1);
+
+    // ----------
+
+    final HttpEntity mockHttpEntity7 = mock(HttpEntity.class);
+    when(mockHttpEntity7.isStreaming()).thenReturn(false);
+
+    final String testDoc7 = "<devicelist version=\"1\"></devicelist>\n"; //$NON-NLS-1$
+    when(mockHttpEntity7.getContentType()).thenReturn(null);
+    when(mockHttpEntity7.getContent()).thenReturn(new ByteArrayInputStream(testDoc7.getBytes(StandardCharsets.UTF_8)));
+    when(mockHttpEntity7.getContentLength()).thenReturn((long)testDoc7.length());
+
+    final CloseableHttpResponse mockCloseableHttpResponse7 = mock(CloseableHttpResponse.class);
+    when(mockCloseableHttpResponse7.getStatusLine()).thenReturn(mockStatusLineOk);
+    when(mockCloseableHttpResponse7.getEntity()).thenReturn(mockHttpEntity7);
+
+    when(mockHttpclient.execute(argThat(new HttpGetMatcher("/webservices/homeautoswitch.lua?switchcmd=getdevicelistinfos&sid=0000000000004711")))).thenReturn(mockCloseableHttpResponse7); //$NON-NLS-1$
+
+    // ----------
+
+    final MHttpApi ahasession = MHttpApi.newInstance(mockHttpclient, getDocBuilder(), "fritz.box", 443, "", MPASSWORD); //$NON-NLS-1$ //$NON-NLS-2$
+    final boolean successLogon = ahasession.logon();
+    final Document doc = ahasession.getDeviceListInfos();
+    final boolean successLogoff = ahasession.logoff();
+    assertAll(
+      () -> assertTrue(successLogon, "Logon failed"), //$NON-NLS-1$
+      () -> assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<devicelist version=\"1\"/>\n", TR64SessionMini.docToString(doc).replaceAll("\r", ""), "device info list not as expected"), //$NON-NLS-1$ //$NON-NLS-2$
+      () -> assertTrue(successLogoff, "Logoff failed") //$NON-NLS-1$
+    );
+   }
+  */
 
 
   /**

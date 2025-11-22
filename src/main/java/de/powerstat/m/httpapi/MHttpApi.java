@@ -238,6 +238,123 @@ public final class MHttpApi implements Comparable<MHttpApi>
    }
 
 
+  /* *
+   * Get XML document.
+   *
+   * @param urlPath URL path
+   * @return Document
+   * @throws IOException IO exception
+   * @throws ClientProtocolException Client protocol exception
+   * @throws SAXException SAX exception
+   * @throws UnsupportedEncodingException Unsupported encoding exception
+   * @throws UnsupportedOperationException When a bad request appears, could happen when using commands from a newer api version
+   *
+   * TODO urlPath value object
+   */
+  /*
+  private Document getDoc(final String urlPath) throws IOException, SAXException
+   {
+    assert urlPath != null;
+    try (CloseableHttpResponse response = this.httpclient.execute(new HttpGet("https://" + this.hostname.getHostname() + ":" + this.port.getPort() + ValidationUtils.sanitizeUrlPath(urlPath)))) //$NON-NLS-1$ //$NON-NLS-2$
+     {
+      final int responseCode = response.getStatusLine().getStatusCode();
+      if (responseCode != HttpURLConnection.HTTP_OK)
+       {
+        if (LOGGER.isDebugEnabled())
+         {
+          LOGGER.debug("StatusLine: " + response.getStatusLine()); //$NON-NLS-1$
+         }
+        if (LOGGER.isInfoEnabled())
+         {
+          LOGGER.info("HttpStatus: " + response.getStatusLine().getStatusCode() + ":");  //$NON-NLS-1$//$NON-NLS-2$
+         }
+        if (responseCode == HttpURLConnection.HTTP_FORBIDDEN)
+         {
+          throw new IOException("Credentials failure!"); //$NON-NLS-1$
+         }
+        else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST)
+         {
+          throw new UnsupportedOperationException("Possibly you used a command from a newer api version?"); //$NON-NLS-1$
+         }
+       }
+      final HttpEntity entity = response.getEntity();
+      if (LOGGER.isDebugEnabled())
+       {
+        LOGGER.debug("ContentType: " + entity.getContentType()); //$NON-NLS-1$
+       }
+      final String string = EntityUtils.toString(entity);
+      if (LOGGER.isDebugEnabled())
+       {
+        LOGGER.debug("string: " + string); //$NON-NLS-1$
+       }
+      final byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+      if (LOGGER.isDebugEnabled())
+       {
+        LOGGER.debug("bytes: " +  new String(bytes, StandardCharsets.UTF_8)); //$NON-NLS-1$
+       }
+      final ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
+      final InputSource stream = new InputSource(byteStream);
+      final Document doc = this.docBuilder.parse(stream);
+      EntityUtils.consume(entity);
+      return doc;
+     }
+   }
+  */
+
+
+  /* *
+   * Get string.
+   *
+   * @param urlPath URL path
+   * @return String
+   * @throws IOException IO exception
+   * @throws ClientProtocolException Client protocol exception
+   * @throws UnsupportedOperationException When a bad request appears, could happen when using commands from a newer api version
+   *
+   * TODO urlPath value object
+   */
+  /*
+  private String getString(final String urlPath) throws IOException
+   {
+    assert urlPath != null;
+    try (CloseableHttpResponse response = this.httpclient.execute(new HttpGet("https://" + this.hostname.getHostname() + ":" + this.port.getPort() + ValidationUtils.sanitizeUrlPath(urlPath))))//$NON-NLS-1$ //$NON-NLS-2$
+     {
+      final int responseCode = response.getStatusLine().getStatusCode();
+      if (responseCode != HttpURLConnection.HTTP_OK)
+       {
+        if (LOGGER.isDebugEnabled())
+         {
+          LOGGER.debug(response.getStatusLine());
+         }
+        if (LOGGER.isInfoEnabled())
+         {
+          LOGGER.info("HttpStatus: " + response.getStatusLine().getStatusCode() + ":");  //$NON-NLS-1$//$NON-NLS-2$
+         }
+        if (responseCode == HttpURLConnection.HTTP_FORBIDDEN)
+         {
+          throw new IOException("Credentials failure!"); //$NON-NLS-1$
+         }
+        else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST)
+         {
+          throw new UnsupportedOperationException("Possibly you used a command from a newer api version?"); //$NON-NLS-1$
+         }
+       }
+      final HttpEntity entity = response.getEntity();
+      if (LOGGER.isDebugEnabled())
+       {
+        LOGGER.debug("ContentType: " + entity.getContentType()); //$NON-NLS-1$
+       }
+      final String result = EntityUtils.toString(entity);
+      if (LOGGER.isDebugEnabled())
+       {
+        LOGGER.debug("getString: " + result); //$NON-NLS-1$
+       }
+      return result;
+     }
+   }
+  */
+
+
   /**
    * Get image.
    *
@@ -248,7 +365,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
   private BufferedImage getImage(final String urlPath) throws IOException
    {
     assert urlPath != null;
-    try (CloseableHttpResponse response = this.httpclient.execute(new HttpGet("https://" + this.hostname.stringValue() + ":" + this.port.intValue() + ValidationUtils.sanitizeUrlPath(urlPath)))) //$NON-NLS-1$ //$NON-NLS-2$
+    try (CloseableHttpResponse response = httpclient.execute(new HttpGet("https://" + hostname.stringValue() + ":" + port.intValue() + ValidationUtils.sanitizeUrlPath(urlPath)))) //$NON-NLS-1$ //$NON-NLS-2$
      {
       final int responseCode = response.getStatusLine().getStatusCode();
       if (responseCode != HttpURLConnection.HTTP_OK)
@@ -312,7 +429,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
    * @param height Height (0-1536), must be 4:3 with height
    * @return Buffered image
    * @throws IOException IO exception
-   * @throws IllegalArgumentException If (width or height) < 0 or width > 2048 or height > 1536
+   * @throws IllegalArgumentException If (width or height) &lt; 0 or width &gt; 2048 or height &gt; 1536
    */
   public BufferedImage getImagePreview(final int width, final int height) throws IOException
    {
@@ -427,7 +544,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
   @Override
   public int hashCode()
    {
-    return Objects.hash(this.hostname);
+    return Objects.hash(hostname);
    }
 
 
@@ -449,7 +566,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
      {
       return false;
      }
-    return (this.hostname.equals(other.hostname));
+    return (hostname.equals(other.hostname));
    }
 
 
@@ -466,7 +583,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
   @Override
   public String toString()
    {
-    return new StringBuilder().append("MHttpApi[hostname=").append(this.hostname.stringValue()).append(']').toString(); //$NON-NLS-1$
+    return new StringBuilder().append("MHttpApi[hostname=").append(hostname.stringValue()).append(']').toString(); //$NON-NLS-1$
    }
 
 
@@ -481,7 +598,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
   public int compareTo(final MHttpApi obj)
    {
     Objects.requireNonNull(obj, "obj"); //$NON-NLS-1$
-    return this.hostname.compareTo(obj.hostname);
+    return hostname.compareTo(obj.hostname);
    }
 
 
@@ -682,7 +799,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        */
       public int getAction()
        {
-        return this.action;
+        return action;
        }
 
      }
@@ -733,7 +850,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        */
       public int getAction()
        {
-        return this.action;
+        return action;
        }
 
      }
@@ -789,7 +906,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        */
       public int getAction()
        {
-        return this.action;
+        return action;
        }
 
      }
@@ -845,7 +962,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        */
       public int getAction()
        {
-        return this.action;
+        return action;
        }
 
      }
@@ -903,7 +1020,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        */
       public int getAction()
        {
-        return this.action;
+        return action;
        }
 
      }
@@ -959,7 +1076,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        */
       public int getAction()
        {
-        return this.action;
+        return action;
        }
 
      }
@@ -1015,7 +1132,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        */
       public int getAction()
        {
-        return this.action;
+        return action;
        }
 
      }
@@ -1096,7 +1213,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        */
       public int getAction()
        {
-        return this.action;
+        return action;
        }
 
      }
@@ -1129,7 +1246,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
      */
     private static void addAmpersand(final StringBuilder params)
      {
-      if (params.length() > 0)
+      if (!params.isEmpty())
        {
         params.append('&');
        }
@@ -1145,171 +1262,171 @@ public final class MHttpApi implements Comparable<MHttpApi>
     public String getUrlParams() throws UnsupportedEncodingException
      {
       final var params = new StringBuilder();
-      if ((this.width != 0) && (this.height != 0))
+      if ((width != 0) && (height != 0))
        {
         // addAmpersand(params);
         params.append(SIZE);
-        params.append(this.width);
+        params.append(width);
         params.append('x');
-        params.append(this.height);
+        params.append(height);
        }
-      if ((this.custWidth != 0) && (this.custHeight != 0))
+      if ((custWidth != 0) && (custHeight != 0))
        {
         addAmpersand(params);
         params.append("customsize="); //$NON-NLS-1$
-        params.append(this.custWidth);
+        params.append(custWidth);
         params.append('x');
-        params.append(this.custHeight);
+        params.append(custHeight);
        }
-      if (this.brightness != null)
+      if (brightness != null)
        {
         addAmpersand(params);
         params.append("brightness="); //$NON-NLS-1$
-        params.append(this.brightness);
+        params.append(brightness);
        }
-      if (this.backlight != null)
+      if (backlight != null)
        {
         addAmpersand(params);
         params.append("backlight="); //$NON-NLS-1$
-        params.append(this.backlight);
+        params.append(backlight);
        }
-      if (this.color != null)
+      if (color != null)
        {
         addAmpersand(params);
         params.append("color="); //$NON-NLS-1$
-        params.append(this.color);
+        params.append(color);
        }
-      if (this.blue != null)
+      if (blue != null)
        {
         addAmpersand(params);
         params.append("blue="); //$NON-NLS-1$
-        params.append(this.blue);
+        params.append(blue);
        }
-      if (this.red != null)
+      if (red != null)
        {
         addAmpersand(params);
         params.append("red="); //$NON-NLS-1$
-        params.append(this.red);
+        params.append(red);
        }
-      if (this.sharpen != null)
+      if (sharpen != null)
        {
         addAmpersand(params);
         params.append("sharpen="); //$NON-NLS-1$
-        params.append(this.sharpen);
+        params.append(sharpen);
        }
-      if (this.quality != 0)
+      if (quality != 0)
        {
         addAmpersand(params);
         params.append("quality="); //$NON-NLS-1$
-        params.append(this.quality);
+        params.append(quality);
        }
-      if (this.rotate != null)
+      if (rotate != null)
        {
         addAmpersand(params);
         params.append("rotate="); //$NON-NLS-1$
-        params.append(this.rotate);
+        params.append(rotate);
        }
-      if (this.textBgOpacity != null)
+      if (textBgOpacity != null)
        {
         addAmpersand(params);
         params.append("textbgopacity="); //$NON-NLS-1$
-        params.append(this.textBgOpacity);
+        params.append(textBgOpacity);
        }
-      if (this.displayFontSize != 0)
+      if (displayFontSize != 0)
        {
         addAmpersand(params);
         params.append("displayfontsize="); //$NON-NLS-1$
-        params.append(this.displayFontSize);
+        params.append(displayFontSize);
        }
-      if (this.date != null)
+      if (date != null)
        {
         addAmpersand(params);
         params.append("date="); //$NON-NLS-1$
-        params.append(this.date);
+        params.append(date);
        }
-      if (this.textcolor != null)
+      if (textcolor != null)
        {
         addAmpersand(params);
         params.append("textcolor="); //$NON-NLS-1$
-        params.append(String.format("0x%06X", this.textcolor)); //$NON-NLS-1$
+        params.append(String.format("0x%06X", textcolor)); //$NON-NLS-1$
        }
-      if (this.textbgcolor != null)
+      if (textbgcolor != null)
        {
         addAmpersand(params);
         params.append("textbgcolor="); //$NON-NLS-1$
-        params.append(String.format("0x%06X", this.textbgcolor)); //$NON-NLS-1$
+        params.append(String.format("0x%06X", textbgcolor)); //$NON-NLS-1$
        }
-      if (this.stitchmode != null)
+      if (stitchmode != null)
        {
         addAmpersand(params);
         params.append("stitchmode="); //$NON-NLS-1$
-        params.append(this.stitchmode.booleanValue() ? "on" : "off"); //$NON-NLS-1$ //$NON-NLS-2$
+        params.append(stitchmode.booleanValue() ? "on" : "off"); //$NON-NLS-1$ //$NON-NLS-2$
        }
-      if (this.doublePip != null)
+      if (doublePip != null)
        {
         addAmpersand(params);
         params.append("double_pip="); //$NON-NLS-1$
-        params.append(this.doublePip.booleanValue() ? "on" : "off"); //$NON-NLS-1$ //$NON-NLS-2$
+        params.append(doublePip.booleanValue() ? "on" : "off"); //$NON-NLS-1$ //$NON-NLS-2$
        }
-      if (this.showlogo != null)
+      if (showlogo != null)
        {
         addAmpersand(params);
         params.append("showlogo="); //$NON-NLS-1$
-        params.append(URLEncoder.encode(this.showlogo, StandardCharsets.UTF_8.toString()));
+        params.append(URLEncoder.encode(showlogo, StandardCharsets.UTF_8.toString()));
        }
-      if (this.print != null)
+      if (print != null)
        {
         addAmpersand(params);
         params.append("print="); //$NON-NLS-1$
-        params.append(URLEncoder.encode(this.print, StandardCharsets.UTF_8.toString()));
+        params.append(URLEncoder.encode(print, StandardCharsets.UTF_8.toString()));
        }
-      if (this.noisesuppress != null)
+      if (noisesuppress != null)
        {
         addAmpersand(params);
         params.append("noisesuppress="); //$NON-NLS-1$
-        params.append(this.noisesuppress.name().toLowerCase(Locale.getDefault()));
+        params.append(noisesuppress.name().toLowerCase(Locale.getDefault()));
        }
-      if (this.textdisplay != null)
+      if (textdisplay != null)
        {
         addAmpersand(params);
         params.append("textdisplay="); //$NON-NLS-1$
-        params.append(this.textdisplay.name().toLowerCase(Locale.getDefault()));
+        params.append(textdisplay.name().toLowerCase(Locale.getDefault()));
        }
-      if (this.camera != null)
+      if (camera != null)
        {
         addAmpersand(params);
         params.append("camera="); //$NON-NLS-1$
-        params.append(this.camera.name().toLowerCase(Locale.getDefault()));
+        params.append(camera.name().toLowerCase(Locale.getDefault()));
        }
-      if (this.automatic != null)
+      if (automatic != null)
        {
         addAmpersand(params);
         params.append("automatic="); //$NON-NLS-1$
-        params.append(this.automatic.name().toLowerCase(Locale.getDefault()));
+        params.append(automatic.name().toLowerCase(Locale.getDefault()));
        }
-      if (this.mirror != null)
+      if (mirror != null)
        {
         addAmpersand(params);
         params.append("mirror="); //$NON-NLS-1$
-        params.append(this.mirror.name().toLowerCase(Locale.getDefault()));
+        params.append(mirror.name().toLowerCase(Locale.getDefault()));
        }
-      if (this.error != null)
+      if (error != null)
        {
         addAmpersand(params);
         params.append("error="); //$NON-NLS-1$
-        params.append(this.error.name().toLowerCase(Locale.getDefault()));
+        params.append(error.name().toLowerCase(Locale.getDefault()));
        }
-      if (this.pipposition != null)
+      if (pipposition != null)
        {
         addAmpersand(params);
         params.append("pipposition="); //$NON-NLS-1$
-        params.append(this.pipposition.name().toLowerCase(Locale.getDefault()));
+        params.append(pipposition.name().toLowerCase(Locale.getDefault()));
        }
-      if (this.displayMode != null)
+      if (displayMode != null)
        {
         addAmpersand(params);
         params.append("displaymode="); //$NON-NLS-1$
-        params.append(this.displayMode.name().toLowerCase(Locale.getDefault()));
+        params.append(displayMode.name().toLowerCase(Locale.getDefault()));
        }
       return params.toString();
      }
@@ -1361,8 +1478,8 @@ public final class MHttpApi implements Comparable<MHttpApi>
        }
       // TODO if 0 calculate from other value
       // TODO check width / 4 == height / 3
-      this.custWidth = width;
-      this.custHeight = height;
+      custWidth = width;
+      custHeight = height;
       return this;
      }
 
@@ -1524,7 +1641,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        {
         throw new IllegalArgumentException("textbgopacity must be 0..100"); //$NON-NLS-1$
        }
-      this.textBgOpacity = Integer.valueOf(textbgopacity);
+      textBgOpacity = Integer.valueOf(textbgopacity);
       return this;
      }
 
@@ -1542,7 +1659,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        {
         throw new IllegalArgumentException("textbgopacity must be 8..24"); //$NON-NLS-1$
        }
-      this.displayFontSize = displayfontsize;
+      displayFontSize = displayfontsize;
       return this;
      }
 
@@ -1766,7 +1883,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
      */
     public ImageParams displaymode(final DisplayMode displaymode)
      {
-      this.displayMode = displaymode;
+      displayMode = displaymode;
       return this;
      }
 
@@ -1905,7 +2022,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        */
       public int getAction()
        {
-        return this.action;
+        return action;
        }
 
      }
@@ -1956,7 +2073,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        */
       public int getAction()
        {
-        return this.action;
+        return action;
        }
 
      }
@@ -2007,7 +2124,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        */
       public int getAction()
        {
-        return this.action;
+        return action;
        }
 
      }
@@ -2040,7 +2157,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
      */
     private static void addAmpersand(final StringBuilder params)
      {
-      if (params.length() > 0)
+      if (!params.isEmpty())
        {
         params.append('&');
        }
@@ -2056,87 +2173,87 @@ public final class MHttpApi implements Comparable<MHttpApi>
     public String getUrlParams() throws UnsupportedEncodingException
      {
       final var params = new StringBuilder(28);
-      if ((this.width != 0) && (this.height != 0))
+      if ((width != 0) && (height != 0))
        {
         // addAmpersand(params);
         params.append(SIZE);
-        params.append(this.width);
+        params.append(width);
         params.append('x');
-        params.append(this.height);
+        params.append(height);
        }
-      if (this.iframerefresh != null)
+      if (iframerefresh != null)
        {
         addAmpersand(params);
         params.append("iframerefresh="); //$NON-NLS-1$
-        params.append(this.iframerefresh);
+        params.append(iframerefresh);
        }
-      if (this.jpheaderupdate != null)
+      if (jpheaderupdate != null)
        {
         addAmpersand(params);
         params.append("jpheaderupdate="); //$NON-NLS-1$
-        params.append(this.jpheaderupdate);
+        params.append(jpheaderupdate);
        }
-      if (this.jpheaderrefresh != null)
+      if (jpheaderrefresh != null)
        {
         addAmpersand(params);
         params.append("jpheaderrefresh="); //$NON-NLS-1$
-        params.append(this.jpheaderrefresh);
+        params.append(jpheaderrefresh);
        }
-      if (this.quality != 0)
+      if (quality != 0)
        {
         addAmpersand(params);
         params.append("quality="); //$NON-NLS-1$
-        params.append(this.quality);
+        params.append(quality);
        }
-      if (this.fps != null)
+      if (fps != null)
        {
         addAmpersand(params);
         params.append("fps="); //$NON-NLS-1$
-        params.append(this.fps);
+        params.append(fps);
        }
-      if (this.framecount != null)
+      if (framecount != null)
        {
         addAmpersand(params);
         params.append("framecount="); //$NON-NLS-1$
-        params.append(this.framecount);
+        params.append(framecount);
        }
-      if ((this.needlength != null) && this.needlength.booleanValue())
+      if ((needlength != null) && needlength.booleanValue())
        {
         addAmpersand(params);
         params.append("needlength"); //$NON-NLS-1$
        }
-      if ((this.html != null) && this.html.booleanValue())
+      if ((html != null) && html.booleanValue())
        {
         addAmpersand(params);
         params.append("html"); //$NON-NLS-1$
        }
-      if ((this.noaudio != null) && this.noaudio.booleanValue())
+      if ((noaudio != null) && noaudio.booleanValue())
        {
         addAmpersand(params);
         params.append("noaudio"); //$NON-NLS-1$
        }
-      if ((this.preview != null) && this.preview.booleanValue())
+      if ((preview != null) && preview.booleanValue())
        {
         addAmpersand(params);
         params.append("preview"); //$NON-NLS-1$
        }
-      if (this.error != null)
+      if (error != null)
        {
         addAmpersand(params);
         params.append("error="); //$NON-NLS-1$
-        params.append(this.error.name().toLowerCase(Locale.getDefault()));
+        params.append(error.name().toLowerCase(Locale.getDefault()));
        }
-      if (this.camera != null)
+      if (camera != null)
        {
         addAmpersand(params);
         params.append("camera="); //$NON-NLS-1$
-        params.append(this.camera.name().toLowerCase(Locale.getDefault()));
+        params.append(camera.name().toLowerCase(Locale.getDefault()));
        }
-      if (this.stream != null)
+      if (stream != null)
        {
         addAmpersand(params);
         params.append("stream="); //$NON-NLS-1$
-        params.append(this.stream.name().toLowerCase(Locale.getDefault()));
+        params.append(stream.name().toLowerCase(Locale.getDefault()));
        }
       return params.toString();
      }
@@ -2181,7 +2298,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        {
         throw new IllegalArgumentException("Wrong refresh (0-60)"); //$NON-NLS-1$
        }
-      this.iframerefresh = refresh;
+      iframerefresh = refresh;
       return this;
      }
 
@@ -2199,7 +2316,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        {
         throw new IllegalArgumentException("Wrong update (0-1000)"); //$NON-NLS-1$
        }
-      this.jpheaderupdate = update;
+      jpheaderupdate = update;
       return this;
      }
 
@@ -2217,7 +2334,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
        {
         throw new IllegalArgumentException("Wrong refresh (0-60)"); //$NON-NLS-1$
        }
-      this.jpheaderrefresh = refresh;
+      jpheaderrefresh = refresh;
       return this;
      }
 
@@ -2413,7 +2530,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
      */
     private static void addAmpersand(final StringBuilder params)
      {
-      if (params.length() > 0)
+      if (!params.isEmpty())
        {
         params.append('&');
        }
@@ -2429,13 +2546,13 @@ public final class MHttpApi implements Comparable<MHttpApi>
     public String getUrlParams() throws UnsupportedEncodingException
      {
       final var params = new StringBuilder();
-      if ((this.width != 0) && (this.height != 0))
+      if ((width != 0) && (height != 0))
        {
         // addAmpersand(params);
         params.append(SIZE);
-        params.append(this.width);
+        params.append(width);
         params.append('x');
-        params.append(this.height);
+        params.append(height);
        }
       return params.toString();
      }
