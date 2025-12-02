@@ -10,7 +10,7 @@
   </parent>
 
   <groupId>de.powerstat.m</groupId>
-  <artifactId>httpapi</artifactId>
+  <artifactId>mhttpapi</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -131,7 +131,7 @@
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
-      <version>1.19.0</version>
+      <version>1.20.0</version>
     </dependency>
 <!--
     <dependency>
