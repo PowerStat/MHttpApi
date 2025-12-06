@@ -20,6 +20,8 @@ open module de.powerstat.m.httpapi
   requires org.apache.httpcomponents.httpcore;
   // requires org.apache.commons.codec;
   requires java.desktop;
+  requires org.checkerframework.checker.qual;
+  requires org.jmolecules.ddd;
 
   requires com.github.spotbugs.annotations;
   requires org.junit.jupiter.api;
