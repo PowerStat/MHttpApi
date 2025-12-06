@@ -68,6 +68,10 @@ To make a new release:
     git push -–tags
     git push origin main
     
+To run jacoco:
+
+    mvn -Pjacoco clean test site
+
 To run checkstyle:
 
     mvn checkstyle:check

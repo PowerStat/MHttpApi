@@ -39,6 +39,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import de.powerstat.validation.ValidationUtils;
 import de.powerstat.validation.values.Hostname;
@@ -557,7 +558,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
-  public boolean equals(final Object obj)
+  public boolean equals(final @Nullable Object obj)
    {
     if (this == obj)
      {
@@ -567,7 +568,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
      {
       return false;
      }
-    return (hostname.equals(other.hostname));
+    return hostname.equals(other.hostname);
    }
 
 
