@@ -41,11 +41,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import de.powerstat.validation.ValidationUtils;
-import de.powerstat.validation.values.Hostname;
-import de.powerstat.validation.values.Password;
-import de.powerstat.validation.values.Port;
-import de.powerstat.validation.values.Username;
+import de.powerstat.ddd.ValidationUtils;
+import de.powerstat.ddd.values.comm.Hostname;
+import de.powerstat.ddd.values.comm.Password;
+import de.powerstat.ddd.values.comm.Port;
+import de.powerstat.ddd.values.comm.Username;
 
 
 /**
@@ -186,7 +186,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
   public static MHttpApi newInstance(final Hostname hostname, final Port port, final Username username, final Password password) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, ParserConfigurationException
    {
     final CredentialsProvider credsProvider = new BasicCredentialsProvider();
-    credsProvider.setCredentials(new AuthScope(hostname.stringValue(), port.intValue()), new UsernamePasswordCredentials(username.stringValue(), password.stringValue()));
+    credsProvider.setCredentials(new AuthScope(hostname.stringValue(), port.port()), new UsernamePasswordCredentials(username.stringValue(), password.stringValue()));
     final CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(new SSLConnectionSocketFactory(new SSLContextBuilder().loadTrustMaterial(null, new TrustAllStrategy()).build(), NoopHostnameVerifier.INSTANCE)).setDefaultCredentialsProvider(credsProvider).build();
 
     final var factory = DocumentBuilderFactory.newInstance();
@@ -367,7 +367,7 @@ public final class MHttpApi implements Comparable<MHttpApi>
   private BufferedImage getImage(final String urlPath) throws IOException
    {
     assert urlPath != null;
-    try (CloseableHttpResponse response = httpclient.execute(new HttpGet("https://" + hostname.stringValue() + ":" + port.intValue() + ValidationUtils.sanitizeUrlPath(urlPath)))) //$NON-NLS-1$ //$NON-NLS-2$
+    try (CloseableHttpResponse response = httpclient.execute(new HttpGet("https://" + hostname.stringValue() + ":" + port.port() + ValidationUtils.sanitizeUrlPath(urlPath)))) //$NON-NLS-1$ //$NON-NLS-2$
      {
       final int responseCode = response.getStatusLine().getStatusCode();
       if (responseCode != HttpURLConnection.HTTP_OK)
